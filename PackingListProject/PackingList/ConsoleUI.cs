@@ -1,5 +1,7 @@
 namespace PackingList;
 
+using Spectre.Console;
+
 public class ConsoleUI{
 
     public ConsoleUI(){
@@ -8,9 +10,16 @@ public class ConsoleUI{
 
     public void Show()
     {
-        string mode = AskForInput("Select mode: create a new list (new) or open list (open)");;
+        //string mode = AskForInput("Select mode: create a new list (new) or open list (open)");;
 
-        if(mode=="new"){
+        var mode = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Please select mode")
+                .AddChoices(new[] {
+                    "New list", "Open saved list"
+        }));
+        
+        if(mode=="New list"){
             Console.Write("Enter date of trip: ");
             string date = Console.ReadLine();
 
@@ -32,9 +41,16 @@ public class ConsoleUI{
                 //File.AppendAllText("test-packing-list.txt", itemName + ": " + numItem + Environment.NewLine);
                 fileSaver.AppendLine(itemName + ": " + numItem);
 
-                command = AskForInput("Enter command (end OR continue): ");
+                //command = AskForInput("Enter command (end OR continue): ");
+
+                command = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("What's next?")
+                        .AddChoices(new[] {
+                            "Continue", "End"
+                }));
             }
-            while(command != "end");
+            while(command != "End");
         }
     }
 
