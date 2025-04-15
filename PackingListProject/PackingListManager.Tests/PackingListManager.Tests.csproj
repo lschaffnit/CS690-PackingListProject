@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PackingList\PackingList.csproj" />
+    <ProjectReference Include="..\PackingListManager\PackingListManager.csproj" />
   </ItemGroup>
 
 </Project>
