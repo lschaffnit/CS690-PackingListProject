@@ -1,4 +1,4 @@
-namespace PackingList;
+namespace PackingListManager;
 
 using System.IO;
 
@@ -12,5 +12,9 @@ public class FileSaver{
 
     public void AppendLine(string line){
         File.AppendAllText(this.fileName, line + Environment.NewLine);
+    }
+
+    public void AppendData(Item item){
+        File.AppendAllText(this.fileName, item.isPacked + " " + item.name + ": " + item.quantity + Environment.NewLine);
     }
 }

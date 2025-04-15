@@ -1,4 +1,4 @@
-﻿namespace PackingList;
+﻿namespace PackingListManager;
 
 class Program
 {
@@ -10,3 +10,4 @@ class Program
 
     
 }
+

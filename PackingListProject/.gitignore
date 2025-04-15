@@ -6,9 +6,8 @@
 # dotenv files
 .env
 
-test-packing-list.txt
-
 # User-specific files
+*.txt
 *.rsuser
 *.suo
 *.user
