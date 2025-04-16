@@ -15,6 +15,6 @@ public class FileSaver{
     }
 
     public void AppendData(Item item){
-        File.AppendAllText(this.fileName, item.isPacked + " " + item.name + ": " + item.quantity + Environment.NewLine);
+        File.AppendAllText(this.fileName, item.isPacked + ": " + item.name + ": " + item.quantity + Environment.NewLine);
     }
 }
