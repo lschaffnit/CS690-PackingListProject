@@ -3,13 +3,9 @@ namespace PackingListManager;
 using Spectre.Console;
 
 public class ConsoleUI{
-
-     List<Item> testList = new List<Item>();
-
+    DataManager dataManager;
     public ConsoleUI(){
-        testList.Add(new Item("item1", 1));
-        testList.Add(new Item("item2", 2));
-        testList.Add(new Item("item3", 3));
+        dataManager = new DataManager();
     }
 
     public void Show()
@@ -19,51 +15,29 @@ public class ConsoleUI{
             new SelectionPrompt<string>()
                 .Title("Please select mode")
                 .AddChoices(new[] {
-                    "New list", "Check items off list"
+                    //"New list", "Check items off list"
+                    "New list", "Open list"
         }));
        
         if(mode=="New list"){
-            Console.Write("Enter date of trip: ");
-            string date = Console.ReadLine();
+            
+            //dataManager = new DataManager();
+            dataManager.createNewPackingList();
 
-            Console.Write("Enter location of trip: ");
-            string location = Console.ReadLine();
-
-            string packingListFileName = "packing-list.txt";
-            FileSaver fileSaver = new FileSaver(packingListFileName);
-            fileSaver.AppendLine(location + ": " + date);
-
-            string command;
-
-            do{
-
-                string itemName = AskForInput("Enter name of item: ");
-                int numItem = int.Parse(AskForInput("Enter quantity: "));
-                Item item = new Item(itemName, numItem);
-
-                fileSaver.AppendData(item);
-
-                command = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("What's next?")
-                        .AddChoices(new[] {
-                            "Continue", "End"
-                }));
-            }
-            while(command != "End");
         }
 
-        else if(mode=="Check items off list"){
+        else if(mode == "Open list"){
+            List<Item> openedList = dataManager.ProcessPackingList("packing-list.txt");
+
+        // else if(mode=="Check items off list"){
            
-            string command;
+            string command = "";
 
             do{
-
-
                 Item selectedItem = AnsiConsole.Prompt(
                     new SelectionPrompt<Item>()
                         .Title("Please select item to check off:")
-                        .AddChoices(testList));
+                        .AddChoices(openedList));
 
                 Console.WriteLine("You selected " + selectedItem.name);
 
@@ -89,8 +63,5 @@ public class ConsoleUI{
         }
     }
 
-    public static string AskForInput(string message){
-        Console.Write(message);
-        return Console.ReadLine();
-    }
+    
 }
