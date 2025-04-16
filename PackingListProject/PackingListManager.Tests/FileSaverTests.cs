@@ -26,6 +26,6 @@ public class FileSaverTests
        
         fileSaver.AppendData(testItem);
         var contentFromFile = File.ReadAllText(testFileName);
-        Assert.Equal("False test item 1: 1" + Environment.NewLine, contentFromFile);
+        Assert.Equal("False: test item 1: 1" + Environment.NewLine, contentFromFile);
     }
 }
