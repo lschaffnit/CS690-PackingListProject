@@ -5,10 +5,10 @@ namespace PackingListManager;
 
 public class PackingList{
 
-    public string location {get;}
-    public string date {get;}
+    public string location {get; set;}
+    public string date {get; set;}
 
-    public List<Item> Items {get;}
+    public List<Item> Items {get; set;}
 
     public PackingList(string location, string date){
         this.location = location;

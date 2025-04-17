@@ -1,26 +1,13 @@
 namespace PackingListManager;
 
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using Spectre.Console;
 
 public class DataManager{
-    
-    //FileSaver fileSaver;
-    //public List<Item> testList = new List<Item>();
-   // public List<Item> testList {get;}
-    //PackingList packingList;
 
     public DataManager(){
         
-
-        //fileSaver = new FileSaver("packing-list.txt");
-        
-        // testList = new List<Item>();
-        // testList.Add(new Item("item1", 1));
-        // testList.Add(new Item("item2", 2));
-        // testList.Add(new Item("item3", 3));
-
-        //packingList = new PackingList();
     }
 
     public PackingList createNewPackingList(){
@@ -30,13 +17,9 @@ public class DataManager{
         
         Console.Write("Enter location of trip: ");
         location = Console.ReadLine();
-        //packingList.location = Console.ReadLine();
 
         Console.Write("Enter date of trip: ");
         date = Console.ReadLine();
-        //packingList.date = Console.ReadLine();
-
-        //string packingListFileName = "packing-list.txt";
 
         FileSaver fileSaver = new FileSaver("packing-list.txt");
 
@@ -87,24 +70,55 @@ public class DataManager{
             fileContentAsList.RemoveAt(0); //remove date
 
             foreach(var line in fileContentAsList){
-                //Console.WriteLine(line);
                 var splitLine= line.Split(":", StringSplitOptions.RemoveEmptyEntries);
-                // Console.WriteLine("item name: " + splitLine[1]);
-                // Console.WriteLine("item quantity: " + splitLine[2]);
-                // Console.WriteLine("packed: " + splitLine[0]);
                 Item item = new Item(splitLine[1], int.Parse(splitLine[2]), bool.Parse(splitLine[0]));
-                //openedPackingList.addItem(item);
                 openedPackingList.Add(item);
             }
-            //Console.WriteLine(packingListFileContent[0]);
-            //foreach(var line in packingListFileContent){
-                //Console.WriteLine(line);
-                
-            //}
             return openedPackingList;
         }
 
         return null;
 
+    }
+
+    public PackingList createPackingListObjectFromFile(string fileName){
+
+        if(File.Exists(fileName))
+        {
+            PackingList packingListFromFile = new PackingList();
+            var packingListFileContent = File.ReadAllLines(fileName);
+            //string listLocation = packingListFileContent[0];
+            packingListFromFile.location = packingListFileContent[0];
+            //string listDate = packingListFileContent[1];
+            packingListFromFile.date = packingListFileContent[1];
+
+            //PackingList openedPackingList = new PackingList(listLocation, listDate);
+            //List<Item> openedPackingList = new List<Item>();
+                        
+            // List<string> fileContentAsList = packingListFileContent.ToList();
+            // fileContentAsList.RemoveAt(0); //remove location
+            // fileContentAsList.RemoveAt(0); //remove date
+
+            // foreach(var line in fileContentAsList){
+            //     var splitLine= line.Split(":", StringSplitOptions.RemoveEmptyEntries);
+            //     Item item = new Item(splitLine[1], int.Parse(splitLine[2]), bool.Parse(splitLine[0]));
+            //     packingListFromFile.Items.Add(item);
+            // }
+
+            packingListFromFile.Items = ProcessPackingList(fileName);
+            return packingListFromFile;
+        }
+        return null;
+    }
+
+    public static void createTxtFileFromPackingListObject(PackingList packingList, string fileName){
+        FileSaver fileSaver = new FileSaver(fileName);
+
+        fileSaver.AppendLine(packingList.location);
+        fileSaver.AppendLine(packingList.date);
+
+        foreach(var item in packingList.Items){
+            fileSaver.AppendData(item);
+        }
     }
 }
