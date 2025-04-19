@@ -25,7 +25,9 @@ public class ConsoleUI{
         if(mode=="New list"){
             
             //dataManager = new DataManager();
-            packingList = dataManager.createNewPackingList();
+            //packingList = dataManager.createNewPackingList();
+            dataManager.createNewPackingList();
+            packingList = dataManager.createPackingListObjectFromFile("packing-list.txt");
 
         }
 
@@ -53,8 +55,8 @@ public class ConsoleUI{
             do{
             
                 //List<Item> listOfItems = dataManager.ProcessPackingList("packing-list.txt");
-               // List<Item> listOfItems = packingList.Items;
-                Item selectedItem = AnsiConsole.Prompt(
+               //List<Item> listOfItems = packingList.Items;
+               Item selectedItem = AnsiConsole.Prompt(
                     new SelectionPrompt<Item>()
                         .Title("Please select item to check off:")
                         .AddChoices(listOfItems));
@@ -65,11 +67,27 @@ public class ConsoleUI{
                     new SelectionPrompt<string>()
                         .Title("Check off item?")
                         .AddChoices(new[] {
-                            "Yes"
+                            "Yes", "No"
                 }));
 
                 if(checkOff=="Yes"){
-                    selectedItem.isPacked = true;
+                    if(!selectedItem.isPacked){
+                        selectedItem.isPacked = true;
+                    }
+                    
+                
+                    else{
+                        Console.WriteLine("This item has already been checked off the list.");
+                        string uncheck = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Would you like to uncheck this item off of the list?")
+                            .AddChoices(new[] {
+                                "Yes", "No"
+                        }));
+                        if(uncheck == "Yes"){
+                            selectedItem.isPacked = false;
+                        }
+                    }
                 }
 
                 command = AnsiConsole.Prompt(
@@ -85,10 +103,12 @@ public class ConsoleUI{
             DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");
 
         }
-        else
-        {
-            Console.WriteLine("Goodbye");
-        }
+        // else
+        // {
+        //     Console.WriteLine("Goodbye");
+        // }
+
+        packingList.PrintPackingList();
 
 
     

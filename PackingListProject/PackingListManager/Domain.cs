@@ -27,6 +27,14 @@ public class PackingList{
         Items.Add(item);
     }
 
+    public void PrintPackingList(){
+        Console.WriteLine("Location: " + location);
+        Console.WriteLine("Date: " + date);
+
+        foreach(Item item in Items){
+            Console.WriteLine(item);
+        }
+    }
 }
 
 public class Item{
@@ -50,12 +58,13 @@ public class Item{
     public override string ToString() {
         string status;
         if(isPacked){
-            status = ":check_mark:";
+            status = "\u2713";
         }
         else{
-            status = ":cross_mark:";
+            status = "X";
         }
 
-        return status + " " + this.name + ": " + this.quantity;
+        //return status + " " + this.name + ": " + this.quantity;
+        return status + this.name + ": " + this.quantity;
     }
 }
