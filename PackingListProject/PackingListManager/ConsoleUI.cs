@@ -1,7 +1,7 @@
 namespace PackingListManager;
 
 using Spectre.Console;
-using Spectre.Console.Cli;
+//using Spectre.Console.Cli;
 
 public class ConsoleUI{
     DataManager dataManager;
@@ -14,32 +14,31 @@ public class ConsoleUI{
        
         PackingList packingList = new PackingList();
         
+        //create a new list or open the existing list
         var mode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Please select mode")
                 .AddChoices(new[] {
-                    //"New list", "Check items off list"
                     "New list", "Open list"
         }));
        
         if(mode=="New list"){
             
-            //dataManager = new DataManager();
-            //packingList = dataManager.createNewPackingList();
             dataManager.createNewPackingList();
             packingList = dataManager.createPackingListObjectFromFile("packing-list.txt");
 
         }
 
         else if(mode == "Open list"){
-            //List<Item> openedList = dataManager.ProcessPackingList("packing-list.txt");
+
             packingList = dataManager.createPackingListObjectFromFile("packing-list.txt");
-            
-           
+            packingList.PrintPackingList();
+
         }
         
         List<Item> listOfItems = packingList.Items;
 
+        //check off items on list
         var mode2 = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Would you like to check items off of this list?")
@@ -49,46 +48,11 @@ public class ConsoleUI{
         
         if(mode2 == "Yes")
         {
-            //List<Item> listOfItems = packingList.Items;
             string command = "";
 
             do{
-            
-                //List<Item> listOfItems = dataManager.ProcessPackingList("packing-list.txt");
-               //List<Item> listOfItems = packingList.Items;
-               Item selectedItem = AnsiConsole.Prompt(
-                    new SelectionPrompt<Item>()
-                        .Title("Please select item to check off:")
-                        .AddChoices(listOfItems));
-
-                Console.WriteLine("You selected " + selectedItem.name);
-
-                string checkOff = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("Check off item?")
-                        .AddChoices(new[] {
-                            "Yes", "No"
-                }));
-
-                if(checkOff=="Yes"){
-                    if(!selectedItem.isPacked){
-                        selectedItem.isPacked = true;
-                    }
-                    
-                
-                    else{
-                        Console.WriteLine("This item has already been checked off the list.");
-                        string uncheck = AnsiConsole.Prompt(
-                        new SelectionPrompt<string>()
-                            .Title("Would you like to uncheck this item off of the list?")
-                            .AddChoices(new[] {
-                                "Yes", "No"
-                        }));
-                        if(uncheck == "Yes"){
-                            selectedItem.isPacked = false;
-                        }
-                    }
-                }
+                packingList.checkOffItems();
+                packingList.PrintPackingList();
 
                 command = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -103,11 +67,8 @@ public class ConsoleUI{
             DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");
 
         }
-        // else
-        // {
-        //     Console.WriteLine("Goodbye");
-        // }
 
+        Console.WriteLine("\nHere's your final packing list: \n");
         packingList.PrintPackingList();
 
 
