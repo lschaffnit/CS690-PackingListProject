@@ -35,11 +35,6 @@ public class DataManager{
             do{
 
                 addItem(newPackingList);
-                // string itemName = AskForInput("Enter name of item: ");
-                // int numItem = int.Parse(AskForInput("Enter quantity: "));
-                // Item item = new Item(itemName, numItem);
-
-                // fileSaver.AppendData(item);
 
                 command = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

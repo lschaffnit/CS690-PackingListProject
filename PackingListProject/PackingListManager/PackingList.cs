@@ -55,6 +55,42 @@ public class PackingList{
                     }
                 }
     }
+
+    public void removeItems(){
+               Item selectedItem = AnsiConsole.Prompt(
+                    new SelectionPrompt<Item>()
+                        .Title("Please select item to delete:")
+                        .AddChoices(Items));
+
+                Console.WriteLine("You selected " + selectedItem.name);
+
+                string remove = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Remove item?")
+                        .AddChoices(new[] {
+                            "Yes", "No"
+                }));
+
+                if(remove == "Yes"){
+                    Items.Remove(selectedItem);
+                    // if(!selectedItem.isPacked){
+                    //     selectedItem.isPacked = true;
+                    // }
+                    
+                    // else{
+                    //     Console.WriteLine("This item has already been checked off the list.");
+                    //     string uncheck = AnsiConsole.Prompt(
+                    //     new SelectionPrompt<string>()
+                    //         .Title("Would you like to uncheck this item off of the list?")
+                    //         .AddChoices(new[] {
+                    //             "Yes", "No"
+                    //     }));
+                    //     if(uncheck == "Yes"){
+                    //         selectedItem.isPacked = false;
+                    //     }
+                    // }
+                }
+    }
     
     public void PrintPackingList(){
         Console.WriteLine("Location: " + location);
