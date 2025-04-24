@@ -6,6 +6,8 @@ using Spectre.Console;
 
 public class DataManager{
 
+    FileSaver fileSaver;
+
     public DataManager(){
         
     }
@@ -21,7 +23,7 @@ public class DataManager{
         Console.Write("Enter date of trip: ");
         date = Console.ReadLine();
 
-        FileSaver fileSaver = new FileSaver("packing-list.txt");
+        fileSaver = new FileSaver("packing-list.txt");
 
         PackingList newPackingList = new PackingList(location, date);
 
@@ -32,20 +34,21 @@ public class DataManager{
 
             do{
 
-                string itemName = AskForInput("Enter name of item: ");
-                int numItem = int.Parse(AskForInput("Enter quantity: "));
-                Item item = new Item(itemName, numItem);
+                addItem(newPackingList);
+                // string itemName = AskForInput("Enter name of item: ");
+                // int numItem = int.Parse(AskForInput("Enter quantity: "));
+                // Item item = new Item(itemName, numItem);
 
-                fileSaver.AppendData(item);
+                // fileSaver.AppendData(item);
 
                 command = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("What's next?")
                         .AddChoices(new[] {
-                            "Continue", "End"
+                            "Continue adding items", "Done adding items"
                 }));
             }
-            while(command != "End");
+            while(command != "Done adding items");
         return newPackingList;
     }
 
@@ -62,7 +65,6 @@ public class DataManager{
             string listLocation = packingListFileContent[0];
             string listDate = packingListFileContent[1];
 
-            //PackingList openedPackingList = new PackingList(listLocation, listDate);
             List<Item> openedPackingList = new List<Item>();
                         
             List<string> fileContentAsList = packingListFileContent.ToList();
@@ -87,23 +89,8 @@ public class DataManager{
         {
             PackingList packingListFromFile = new PackingList();
             var packingListFileContent = File.ReadAllLines(fileName);
-            //string listLocation = packingListFileContent[0];
             packingListFromFile.location = packingListFileContent[0];
-            //string listDate = packingListFileContent[1];
             packingListFromFile.date = packingListFileContent[1];
-
-            //PackingList openedPackingList = new PackingList(listLocation, listDate);
-            //List<Item> openedPackingList = new List<Item>();
-                        
-            // List<string> fileContentAsList = packingListFileContent.ToList();
-            // fileContentAsList.RemoveAt(0); //remove location
-            // fileContentAsList.RemoveAt(0); //remove date
-
-            // foreach(var line in fileContentAsList){
-            //     var splitLine= line.Split(":", StringSplitOptions.RemoveEmptyEntries);
-            //     Item item = new Item(splitLine[1], int.Parse(splitLine[2]), bool.Parse(splitLine[0]));
-            //     packingListFromFile.Items.Add(item);
-            // }
 
             packingListFromFile.Items = ProcessPackingList(fileName);
             return packingListFromFile;
@@ -112,6 +99,10 @@ public class DataManager{
     }
 
     public static void createTxtFileFromPackingListObject(PackingList packingList, string fileName){
+        if(File.Exists(fileName)){
+            File.Delete(fileName);
+        }
+
         FileSaver fileSaver = new FileSaver(fileName);
 
         fileSaver.AppendLine(packingList.location);
@@ -120,5 +111,18 @@ public class DataManager{
         foreach(var item in packingList.Items){
             fileSaver.AppendData(item);
         }
+    }
+
+    public void addItem(PackingList packingList){
+
+        string itemName = AskForInput("Enter name of item: ").Trim();
+        int numItem = int.Parse(AskForInput("Enter quantity: "));
+        Item item = new Item(itemName, numItem);
+
+        packingList.Items.Add(item);
+
+        File.Delete("packing-list.txt");
+        createTxtFileFromPackingListObject(packingList, "packing-list.txt");
+
     }
 }

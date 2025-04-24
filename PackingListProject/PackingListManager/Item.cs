@@ -19,15 +19,14 @@ public class Item{
     }
 
     public override string ToString() {
-        string status;
+        string status = "";
         if(isPacked){
-            status = "\u2713";
+            status = "\u2713"; //checkmark 
         }
         else{
             status = "X";
         }
 
-        //return status + " " + this.name + ": " + this.quantity;
-        return status + this.name + ": " + this.quantity;
+        return status + " " + this.name.Trim() + ": " + this.quantity;
     }
 }
