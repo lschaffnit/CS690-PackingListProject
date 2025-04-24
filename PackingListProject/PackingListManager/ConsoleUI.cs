@@ -84,6 +84,8 @@ public class ConsoleUI{
                 }
                 else if(editMode == "Remove item"){
                     packingList.removeItems();
+                    //update packinglist file
+                    //DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");  
                 }
             }
             while(editMode != "Done editing list");
@@ -92,7 +94,8 @@ public class ConsoleUI{
         Console.WriteLine("\nHere's your final packing list: \n");
         packingList.PrintPackingList();
 
-
-    
+        //update packinglist file
+        DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");  
+ 
     }
 }
