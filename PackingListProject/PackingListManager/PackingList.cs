@@ -21,11 +21,6 @@ public class PackingList{
         this.Items = new List<Item>();
     }
 
-    public void addItem(Item item)
-    {
-        Items.Add(item);
-    }
-
     public void checkOffItems(){
                Item selectedItem = AnsiConsole.Prompt(
                     new SelectionPrompt<Item>()

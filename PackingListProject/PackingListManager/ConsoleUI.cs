@@ -22,7 +22,7 @@ public class ConsoleUI{
                     "New list", "Open list"
         }));
        
-        if(mode=="New list"){
+        if(mode=="New list" || !File.Exists("packing-list.txt")){
             
             dataManager.createNewPackingList();
             packingList = dataManager.createPackingListObjectFromFile("packing-list.txt");
@@ -33,20 +33,19 @@ public class ConsoleUI{
 
             packingList = dataManager.createPackingListObjectFromFile("packing-list.txt");
             packingList.PrintPackingList();
-
+    
         }
         
         List<Item> listOfItems = packingList.Items;
 
-        //check off items on list
         var mode2 = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title("Would you like to check items off of this list?")
+                .Title("What's next?")
                 .AddChoices(new[] {
-                    "Yes", "No"
+                    "Check items off of this list", "Edit this list", "Done with this list"
         }));
         
-        if(mode2 == "Yes")
+        if(mode2 == "Check items off of this list")
         {
             string command = "";
 
@@ -58,14 +57,33 @@ public class ConsoleUI{
                     new SelectionPrompt<string>()
                         .Title("What's next?")
                         .AddChoices(new[] {
-                            "Continue", "End"
+                            "Check off another item", "Done checking off items"
                 }));
             }
-            while(command != "End");
+            while(command != "Done checking off items");
 
             //update packinglist file
             DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");
 
+        }
+
+        else if(mode2 == "Edit this list"){
+            string editMode = "";
+            do{
+                editMode = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("What's next?")
+                        .AddChoices(new[] {
+                            "Add item", "Edit item", "Remove item", "Done editing list"
+                }));
+
+                if(editMode == "Add item"){
+
+                    dataManager.addItem(packingList);
+
+                }
+            }
+            while(editMode != "Done editing list");
         }
 
         Console.WriteLine("\nHere's your final packing list: \n");
