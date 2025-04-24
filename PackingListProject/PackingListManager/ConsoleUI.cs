@@ -82,6 +82,9 @@ public class ConsoleUI{
                     dataManager.addItem(packingList);
 
                 }
+                else if(editMode == "Remove item"){
+                    packingList.removeItems();
+                }
             }
             while(editMode != "Done editing list");
         }
