@@ -6,7 +6,8 @@ public class FileSaverTests
     FileSaver fileSaver;
     string testFileName;
 
-    public FileSaverTests(){
+    public FileSaverTests()
+    {
         testFileName = "test-PackingList.txt";
         fileSaver = new FileSaver(testFileName);
     }

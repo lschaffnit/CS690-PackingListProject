@@ -73,22 +73,6 @@ public class PackingList{
 
                 if(remove == "Yes"){
                     Items.Remove(selectedItem);
-                    // if(!selectedItem.isPacked){
-                    //     selectedItem.isPacked = true;
-                    // }
-                    
-                    // else{
-                    //     Console.WriteLine("This item has already been checked off the list.");
-                    //     string uncheck = AnsiConsole.Prompt(
-                    //     new SelectionPrompt<string>()
-                    //         .Title("Would you like to uncheck this item off of the list?")
-                    //         .AddChoices(new[] {
-                    //             "Yes", "No"
-                    //     }));
-                    //     if(uncheck == "Yes"){
-                    //         selectedItem.isPacked = false;
-                    //     }
-                    // }
                 }
     }
     

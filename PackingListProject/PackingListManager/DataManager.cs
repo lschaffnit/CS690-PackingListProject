@@ -1,7 +1,4 @@
 namespace PackingListManager;
-
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using Spectre.Console;
 
 public class DataManager{
@@ -111,6 +108,7 @@ public class DataManager{
     public void addItem(PackingList packingList){
 
         string itemName = AskForInput("Enter name of item: ").Trim();
+        itemName = itemName.TrimStart();
         int numItem = int.Parse(AskForInput("Enter quantity: "));
         Item item = new Item(itemName, numItem);
 
