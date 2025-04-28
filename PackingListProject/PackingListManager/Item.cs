@@ -1,8 +1,8 @@
 namespace PackingListManager;
 
 public class Item{
-    public string name {get;}
-    public int quantity {get;}
+    public string name {get; set;}
+    public int quantity {get; set;}
 
     public bool isPacked {get; set;}
 
