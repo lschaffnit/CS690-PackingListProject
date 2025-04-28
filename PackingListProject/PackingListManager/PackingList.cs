@@ -56,6 +56,46 @@ public class PackingList{
                 }
     }
 
+    public void editItem(){
+               Item selectedItem = AnsiConsole.Prompt(
+                    new SelectionPrompt<Item>()
+                        .Title("Please select item to edit:")
+                        .AddChoices(Items));
+
+                Console.WriteLine("You selected " + selectedItem.name);
+
+                string editItem = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Edit item?")
+                        .AddChoices(new[] {
+                            "Yes", "No"
+                }));
+
+                if(editItem == "Yes"){
+                    
+                    string editOption = "";
+
+                    do{
+            
+                        editOption = AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                                .Title("What would you like to edit?")
+                                .AddChoices(new[] {
+                                    "Item name", "Item quantity", "Done editing item"
+                        }));
+
+                        if(editOption == "Item name"){
+                            Console.Write("Enter new name of item: ");
+                            selectedItem.name = Console.ReadLine().Trim();
+                        }
+                        else if(editOption == "Item quantity"){
+                            Console.Write("Enter new quantity of item: ");
+                            selectedItem.quantity = int.Parse(Console.ReadLine());
+                        }
+                    } while(editOption != "Done editing item");
+                }
+    }
+    
     public void removeItems(){
                Item selectedItem = AnsiConsole.Prompt(
                     new SelectionPrompt<Item>()

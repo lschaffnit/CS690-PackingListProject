@@ -81,10 +81,11 @@ public class ConsoleUI{
                     dataManager.addItem(packingList);
 
                 }
+                else if(editMode == "Edit item"){
+                    packingList.editItem();
+                }
                 else if(editMode == "Remove item"){
-                    packingList.removeItems();
-                    //update packinglist file
-                    //DataManager.createTxtFileFromPackingListObject(packingList, "packing-list.txt");  
+                    packingList.removeItems(); 
                 }
             }
             while(editMode != "Done editing list");
